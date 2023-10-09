@@ -1,0 +1,32 @@
+@font-face {
+    font-family: retroFont;
+    src: url(assets/minkler.ttf);
+}
+
+body {
+    background: #000;
+    display: flex;
+    justify-content: center;
+    overflow: hidden;
+    margin: 0;
+}
+
+canvas {
+    width: 100%;
+}
+
+.mensaje {
+    font-family: retroFont;
+    color: #fff;
+    border-right: .25em solid orange;
+    margin: 0 auto;
+    letter-spacing: .15em;
+    animation: blink-caret .75s step-end infinite;
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+    from, to { border-color: transparent }
+    50% { border-color: orange; }
+}
+  

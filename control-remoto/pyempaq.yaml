@@ -1,0 +1,5 @@
+name: control-remoto
+exec:
+  script: main.py
+dependencies:
+  - websockets
