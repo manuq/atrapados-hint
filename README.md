@@ -11,8 +11,8 @@ Dependencias: Python 3.
 ## Uso
 
 Bajar estos dos archivos:
-- ![pantalla.pyz](https://github.com/manuq/atrapados-hint/blob/main/pantalla.pyz?raw=True)
-- ![control-remoto.pyz](https://github.com/manuq/atrapados-hint/blob/main/control-remoto.pyz?raw=True)
+- [pantalla.pyz](https://github.com/manuq/atrapados-hint/blob/main/pantalla.pyz?raw=True)
+- [control-remoto.pyz](https://github.com/manuq/atrapados-hint/blob/main/control-remoto.pyz?raw=True)
 
 Para correr la pantalla en un navegador:
 
