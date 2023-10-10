@@ -31,13 +31,11 @@ python3 control-remoto.pyz
 Para empaquetar la pantalla:
 
 ```
-cd pantalla/
-pyempaq . && mv pantalla.pyz ..
+pyempaq pantalla/
 ```
 
 Para empaquetar el control remoto:
 
 ```
-cd control-remoto/
-pyempaq . && mv control-remoto.pyz ..
+pyempaq control-remoto/
 ```

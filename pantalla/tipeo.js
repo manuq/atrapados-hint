@@ -1,4 +1,5 @@
-const DEMORA = 200;
+const DEMORA_ESCRIBIR = 50;
+const DEMORA_TOTAL_BORRAR = 200;
 
 class Tipeo {
 
@@ -14,7 +15,7 @@ class Tipeo {
     this.mensaje_actual = '';
     this.lista_comandos = [];
     this.borrando = false;
-    this.timeout = setTimeout(() => this.step(), DEMORA);
+    this.timeout = setTimeout(() => this.step(), 100);
   }
 
   getText() {
@@ -71,7 +72,13 @@ class Tipeo {
     }
 
     if (!fin_comandos) {
-      this.timeout = setTimeout(() => this.step(), DEMORA);
+      let demora;
+      if (this.comando_actual === 'borrar') {
+        demora = DEMORA_TOTAL_BORRAR / this.getText().length;
+      } else if (this.comando_actual === 'tipear') {
+        demora = DEMORA_ESCRIBIR + DEMORA_ESCRIBIR * Math.random();
+      }
+      this.timeout = setTimeout(() => this.step(), demora);
     } else {
       this.timeout = null;
     }
@@ -85,14 +92,14 @@ class Tipeo {
       this.lista_comandos.push(['tipear', mensaje]);
     }
     if (this.timeout === null) {
-      this.timeout = setTimeout(() => this.step(), DEMORA);
+      this.timeout = setTimeout(() => this.step(), 100);
     }
   }
 
   borrar() {
     this.lista_comandos.push(['borrar']);
     if (this.timeout === null) {
-      this.timeout = setTimeout(() => this.step(), DEMORA);
+      this.timeout = setTimeout(() => this.step(), 100);
     }
   }
 
