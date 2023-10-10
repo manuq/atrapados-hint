@@ -1,9 +1,10 @@
 let tipeo;
+let texto;
 
 const WIDTH = 640;
 const HEIGHT = 360;
 const USAR_GRAFICOS = true;
-const DEBUG = true;
+const DEBUG = false // || true;
 const VERDE = 0x33ff33;
 
 const archivoEfecto = 'efecto.frag';
@@ -112,7 +113,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             lineHeight: 55,
         });
 
-        const texto = new PIXI.Text({
+        texto = new PIXI.Text({
             text: "",
             renderMode: "canvas",
             style: style,
