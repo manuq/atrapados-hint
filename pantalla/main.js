@@ -9,6 +9,9 @@ const VERDE = 0x33ff33;
 const archivoEfecto = 'efecto.frag';
 let fragment;
 
+let websocket;
+let conectado = false;
+
 function crearFiltro(app, fragment, noise) {
     const glProgram = PIXI.GlProgram.from({
         fragment,
@@ -158,7 +161,6 @@ window.addEventListener("DOMContentLoaded", async () => {
   } else {
     tipeo = new Tipeo('.mensaje');
   }
-    tipeo.tipear('Conectando...');
 
     // // descomentar para pruebas:
     // const websocket = {};
@@ -179,21 +181,35 @@ window.addEventListener("DOMContentLoaded", async () => {
     // }, 50000)
 
     // comentar para pruebas:
-    const websocket = new WebSocket("ws://localhost:8001/");
+    function conectar() {
+        websocket = new WebSocket("ws://localhost:8001/");
 
-    websocket.onerror = () => {
-        tipeo.tipear('¡Sin conexión!');
-    };
+        websocket.onerror = () => {};
+    
+        websocket.onopen = () => {
+            conectado = true;
+            tipeo.borrar();
+        };
+    
+        websocket.onclose = () => {
+            if (conectado) {
+                conectado = false;
+                tipeo.tipear('Conectando...');
+                conectar();
+            } else {
+                tipeo.tipear('.', sinBorrar=true);
+                setTimeout(conectar, 1000);
+            }
+        };
 
-    websocket.onopen = () => {
-        tipeo.borrar();
-    };
-
-    websocket.onmessage = (event) => {
-        if (event.data[0] === "_") {
-            tipeo.tipear(event.data.substring(1), sinBorrar=true);
-        } else {
-            tipeo.tipear(event.data);
-        }
-    };
+        websocket.onmessage = (event) => {
+            if (event.data[0] === "_") {
+                tipeo.tipear(event.data.substring(1), sinBorrar=true);
+            } else {
+                tipeo.tipear(event.data);
+            }
+        };
+    }
+    tipeo.tipear('Conectando...');
+    conectar();
 });
