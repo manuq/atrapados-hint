@@ -4,10 +4,11 @@ let texto;
 const WIDTH = 640;
 const HEIGHT = 360;
 const USAR_GRAFICOS = true;
-const DEBUG = false // || true;
+const DEBUG = false; // || true;
 const VERDE = 0x33ff33;
 
 const archivoEfecto = 'efecto.frag';
+let filterUniforms;
 let fragment;
 
 let websocket;
@@ -20,7 +21,8 @@ function crearFiltro(app, fragment, noise) {
         name: 'custom-filter',
     });
 
-    const filterUniforms = new PIXI.UniformGroup({
+    filterUniforms = new PIXI.UniformGroup({
+        glitch: { value: 0.0, type: 'f32' },
         iTime: { value: 0.0, type: 'f32' },
         iResolution: { value: [app.canvas.width * 1.0, app.canvas.height * 1.0, 1.0], type: 'vec3<f32>' },
     })
@@ -34,7 +36,7 @@ function crearFiltro(app, fragment, noise) {
             iChannel1: noise.source,
         },
     });
-    return { filter, filterUniforms };
+    return filter;
 }
 
 window.addEventListener("DOMContentLoaded", async () => {
@@ -125,7 +127,7 @@ window.addEventListener("DOMContentLoaded", async () => {
 
         wrapper.addChild(texto);
 
-        let { filter, filterUniforms } = crearFiltro(app, fragment, noise);
+        let filter = crearFiltro(app, fragment, noise);
         wrapper.filters = [filter];
 
         // const blurFilter = new PIXI.BlurFilter({ strength: 10, quality: 4 });
@@ -136,9 +138,7 @@ window.addEventListener("DOMContentLoaded", async () => {
             const newFragment = await response.text();
             if (fragment !== newFragment) {
                 fragment = newFragment;
-                const x = crearFiltro(app, fragment, noise);
-                filter = x.filter;
-                filterUniforms = x.filterUniforms;
+                filter = crearFiltro(app, fragment, noise);
                 wrapper.filters = [filter];
             }
         };
@@ -206,6 +206,12 @@ window.addEventListener("DOMContentLoaded", async () => {
         websocket.onmessage = (event) => {
             if (event.data[0] === "_") {
                 tipeo.tipear(event.data.substring(1), sinBorrar=true);
+            } else if (event.data === "/n") {
+                filterUniforms.uniforms.glitch = 0.0;
+            } else if (event.data === "/g") {
+                filterUniforms.uniforms.glitch = 0.4;
+            } else if (event.data === "/gg") {
+                filterUniforms.uniforms.glitch = 1.0;
             } else {
                 tipeo.tipear(event.data);
             }

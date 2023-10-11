@@ -18,8 +18,9 @@ future = None
 
 OPCIONES = {
     '/ayuda': {'doc': 'Muestra la lista de comandos'},
-    '/glitch': {'doc': 'Pone la pantalla en modo glitch'},
-    '/normal': {'doc': 'Pone la pantalla en modo normal'},
+    '/g': {'doc': 'Pone glitch en la pantalla'},
+    '/gg': {'doc': 'Pone más glitch en pantalla'},
+    '/n': {'doc': 'Pone la pantalla en modo normal'},
     '/salir': {'doc': 'Termina este programa'},
 }
 
@@ -92,12 +93,18 @@ async def handler(websocket):
                 elif linea == '/salir':
                     print()
                     parar = True
-                elif linea == '/glitch':
-                    # FIXME no implementado
-                    print('poniendo la pantalla en modo glitch…')
-                elif linea == '/normal':
-                    # FIXME no implementado
-                    print('poniendo la pantalla en modo normal…')
+                elif linea == '/g':
+                    print('poniendo glitch…')
+                    await websocket.send(linea)
+                    await asyncio.sleep(0.5)
+                elif linea == '/gg':
+                    print('poniendo más glitch!…')
+                    await websocket.send(linea)
+                    await asyncio.sleep(0.5)
+                elif linea == '/n':
+                    print('poniendo en modo normal…')
+                    await websocket.send(linea)
+                    await asyncio.sleep(0.5)
             else:
                 await websocket.send(linea)
                 await asyncio.sleep(0.5)
